@@ -3,10 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Garrafas Personalizadas · Versão Branca</title>
+<title>Garrafas Personalizadas · Demonstração</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@400;500;600;700&family=Saira:ital,wdth,wght@0,75..125,400..900;1,75..125,400..900&display=swap" rel="stylesheet">
+<script>
+  // tema escolhido fica guardado neste navegador; sem escolha, abre no claro
+  (function(){ var t = null; try { t = localStorage.getItem('tema'); } catch(e){}
+    document.documentElement.setAttribute('data-tema', t === 'escuro' ? 'escuro' : 'claro'); })();
+</script>
 <style>
 :root{
   --bg:#0b0b0d; --bg2:#121215; --card:#18181c; --card2:#1f1f24; --line:#2b2b31;
@@ -263,97 +268,93 @@ details[open] p{animation:entra var(--t) var(--e)}
 .box .nota{font-size:13px;color:#54656f;margin:14px 2px 16px}
 .box button{width:100%;border:0;background:#0b0b0d;color:#fff;border-radius:12px;padding:15px;font:italic 800 15px Saira;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 
-/* ===== modelo novo (forma e fonte) com as cores da apresentação anterior, sem gradiente ===== */
-:root{
-  --bg:#f4f2ee; --bg2:#ffffff; --card:#ffffff; --card2:#ffffff; --line:#e4e1db;
-  --txt:#111316; --muted:#5e646c; --red:#d7262f; --red2:#d7262f; --wine:#111316;
-  --ink:#111316; --sun:#ffcf3f; --wa:#1fa855;
-}
-body::after{display:none}
-.ilus{color:#8a8f96}
-.demo-bar{background:var(--ink);border-bottom:0;color:#fff}
-.demo-bar b{color:var(--sun)}
-.top{background:rgba(244,242,238,.9)}
-.logo .marca-tag{background:var(--ink);color:#fff}
-.pill{background:var(--ink)}
-
-/* botões de orçamento no verde do WhatsApp, como antes */
-.btn{background:var(--wa)}
-.btn:hover{filter:brightness(1.06)}
-
-/* abertura sem brilho vermelho */
-.hero{background:var(--bg)}
-.hero::before{display:none}
-.hero-txt .sub{color:var(--muted)}
-.chips span{color:var(--txt);background:#fff}
-.stage::after{left:14%;right:14%;background:radial-gradient(50% 50% at 50% 50%,rgba(17,19,22,.22),transparent 70%)}
-.stage .side{filter:none;margin:0 34px 30px}
-.bottle-logo img{filter:drop-shadow(0 26px 30px rgba(17,19,22,.18))}
-@media(max-width:899px){.stage .side{margin:0 10px 30px}}
-.selo{background:var(--ink);color:#fff}
-.selo b{color:var(--sun)}
-
-.esteira{background:#fff}
-.esteira::before{background:var(--red)}
-.trilho img{filter:drop-shadow(0 8px 10px rgba(17,19,22,.12))}
-
-.oc{background:#fff}
-.oc button{color:var(--txt)}
-.oc img{filter:drop-shadow(0 10px 12px rgba(17,19,22,.15))}
-
-.modelos{background:#fff}
-.vitrine{background:var(--bg)}
-.leque img{filter:drop-shadow(0 22px 24px rgba(17,19,22,.18))}
-.vitrine .nome{background:#fff;color:var(--txt)}
-.ficha .pend{color:#8a6400;background:#fff4cf;border-color:#f3e2a8}
-.paleta button{border-color:#fff}
-.outros div{color:#8a8f96}
-
-/* arte em preto chapado, com o amarelo de destaque */
-.arte{background:var(--ink)}
-.arte .lead{color:#b9bec6}
-.arte .kicker{color:var(--sun)}
-.arte .kicker::before{background:var(--sun);box-shadow:0 -7px 0 -1px var(--sun)}
-.tag{background:var(--sun);color:#2c2200}
-.ad-card{background:#1c1f24}
-.ad-card .rotulo{color:#8d949e}
-.seta{color:var(--sun)}
-.ad-card .branco{background:#fff;clip-path:var(--chanfro);padding:16px 26px}
-.ad-card .branco img{filter:none}
-.lista-arte div{border-top-color:#2a2e35;color:#dfe2e6}
-.arte .ilus{color:#8d949e!important}
-
-.passo{background:#fff}
-
-.confia{background:#fff}
-.carrossel{background:var(--bg)}
-.palco img{filter:drop-shadow(0 22px 22px rgba(17,19,22,.18))}
-.legenda .sim{background:var(--ink);color:#fff}
-.seta-c{background:var(--ink);color:#fff}
-.seta-c:hover{background:var(--red)}
-.pontos button{background:#d4d0c8}
-.dados .pend{color:#8a6400;background:#fff4cf;border-color:#f3e2a8}
-
-details{background:#fff}
-
-/* fechamento em vermelho chapado */
-.fecho{background:var(--red)}
-.fecho .lead{color:#ffe0e1}
-.fecho .btn{background:#fff;color:var(--txt)}
-.fecho .btn svg{color:var(--wa)}
-.fila{background:#fff}
-.fila img{filter:drop-shadow(0 8px 10px rgba(17,19,22,.15))}
-
-footer{background:#fff;color:var(--muted)}
-.fixa{background:rgba(255,255,255,.95)}
-.stage .hb{filter:drop-shadow(0 26px 30px rgba(17,19,22,.18))}
-
 /* fileira do fechamento rodando em loop */
 .fila{justify-content:flex-start;overflow:hidden}
 .fila .rolo{display:flex;align-items:flex-end;width:max-content;animation:anda 70s linear infinite reverse;padding-top:14px}
 .fila .rolo img{margin:0 28px;flex:none}
 .fila .rolo img:hover{transform:scale(1.12) translateY(-2px)}
 @media(max-width:899px){.fila .rolo img{margin:0 16px}}
+
+/* ===== tema claro: modelo novo com as cores da apresentação anterior ===== */
+html[data-tema="claro"]{
+  --bg:#f4f2ee; --bg2:#ffffff; --card:#ffffff; --card2:#ffffff; --line:#e4e1db;
+  --txt:#111316; --muted:#5e646c; --red:#d7262f; --red2:#d7262f; --wine:#111316;
+  --ink:#111316; --sun:#ffcf3f; --wa:#1fa855;
+}
+html[data-tema="claro"] body::after{display:none}
+html[data-tema="claro"] .ilus{color:#8a8f96}
+html[data-tema="claro"] .demo-bar{background:var(--ink);border-bottom:0;color:#fff}
+html[data-tema="claro"] .demo-bar b{color:var(--sun)}
+html[data-tema="claro"] .top{background:rgba(244,242,238,.9)}
+html[data-tema="claro"] .logo .marca-tag{background:var(--ink);color:#fff}
+html[data-tema="claro"] .pill{background:var(--ink)}
+html[data-tema="claro"] .btn{background:var(--wa)}
+html[data-tema="claro"] .btn:hover{filter:brightness(1.06)}
+html[data-tema="claro"] .hero{background:var(--bg)}
+html[data-tema="claro"] .hero::before{display:none}
+html[data-tema="claro"] .hero-txt .sub{color:var(--muted)}
+html[data-tema="claro"] .chips span{color:var(--txt);background:#fff}
+html[data-tema="claro"] .stage::after{left:14%;right:14%;background:radial-gradient(50% 50% at 50% 50%,rgba(17,19,22,.22),transparent 70%)}
+html[data-tema="claro"] .stage .side{filter:none;margin:0 34px 30px}
+html[data-tema="claro"] .bottle-logo img{filter:drop-shadow(0 26px 30px rgba(17,19,22,.18))}
+@media(max-width:899px){html[data-tema="claro"] .stage .side{margin:0 10px 30px}}
+html[data-tema="claro"] .selo{background:var(--ink);color:#fff}
+html[data-tema="claro"] .selo b{color:var(--sun)}
+html[data-tema="claro"] .esteira{background:#fff}
+html[data-tema="claro"] .esteira::before{background:var(--red)}
+html[data-tema="claro"] .trilho img{filter:drop-shadow(0 8px 10px rgba(17,19,22,.12))}
+html[data-tema="claro"] .oc{background:#fff}
+html[data-tema="claro"] .oc button{color:var(--txt)}
+html[data-tema="claro"] .oc img{filter:drop-shadow(0 10px 12px rgba(17,19,22,.15))}
+html[data-tema="claro"] .modelos{background:#fff}
+html[data-tema="claro"] .vitrine{background:var(--bg)}
+html[data-tema="claro"] .leque img{filter:drop-shadow(0 22px 24px rgba(17,19,22,.18))}
+html[data-tema="claro"] .vitrine .nome{background:#fff;color:var(--txt)}
+html[data-tema="claro"] .ficha .pend{color:#8a6400;background:#fff4cf;border-color:#f3e2a8}
+html[data-tema="claro"] .paleta button{border-color:#fff}
+html[data-tema="claro"] .outros div{color:#8a8f96}
+html[data-tema="claro"] .arte{background:var(--ink)}
+html[data-tema="claro"] .arte .lead{color:#b9bec6}
+html[data-tema="claro"] .arte .kicker{color:var(--sun)}
+html[data-tema="claro"] .arte .kicker::before{background:var(--sun);box-shadow:0 -7px 0 -1px var(--sun)}
+html[data-tema="claro"] .tag{background:var(--sun);color:#2c2200}
+html[data-tema="claro"] .ad-card{background:#1c1f24}
+html[data-tema="claro"] .ad-card .rotulo{color:#8d949e}
+html[data-tema="claro"] .seta{color:var(--sun)}
+html[data-tema="claro"] .ad-card .branco{background:#fff;clip-path:var(--chanfro);padding:16px 26px}
+html[data-tema="claro"] .ad-card .branco img{filter:none}
+html[data-tema="claro"] .lista-arte div{border-top-color:#2a2e35;color:#dfe2e6}
+html[data-tema="claro"] .arte .ilus{color:#8d949e!important}
+html[data-tema="claro"] .passo{background:#fff}
+html[data-tema="claro"] .confia{background:#fff}
+html[data-tema="claro"] .carrossel{background:var(--bg)}
+html[data-tema="claro"] .palco img{filter:drop-shadow(0 22px 22px rgba(17,19,22,.18))}
+html[data-tema="claro"] .legenda .sim{background:var(--ink);color:#fff}
+html[data-tema="claro"] .seta-c{background:var(--ink);color:#fff}
+html[data-tema="claro"] .seta-c:hover{background:var(--red)}
+html[data-tema="claro"] .pontos button{background:#d4d0c8}
+html[data-tema="claro"] .dados .pend{color:#8a6400;background:#fff4cf;border-color:#f3e2a8}
+html[data-tema="claro"] details{background:#fff}
+html[data-tema="claro"] .fecho{background:var(--red)}
+html[data-tema="claro"] .fecho .lead{color:#ffe0e1}
+html[data-tema="claro"] .fecho .btn{background:#fff;color:var(--txt)}
+html[data-tema="claro"] .fecho .btn svg{color:var(--wa)}
+html[data-tema="claro"] .fila{background:#fff}
+html[data-tema="claro"] .fila img{filter:drop-shadow(0 8px 10px rgba(17,19,22,.15))}
+html[data-tema="claro"] footer{background:#fff;color:var(--muted)}
+html[data-tema="claro"] .fixa{background:rgba(255,255,255,.95)}
+html[data-tema="claro"] .stage .hb{filter:drop-shadow(0 26px 30px rgba(17,19,22,.18))}
+
+/* botão de tema claro e escuro */
+.tema{display:inline-grid;place-items:center;width:44px;height:38px;border:0;cursor:pointer;background:var(--card2);color:var(--txt);clip-path:var(--para);margin-right:10px}
+.tema svg{width:18px;height:18px}
+.tema .lua{display:none}
+html[data-tema="claro"] .tema{background:#e9e6e0}
+html[data-tema="claro"] .tema .sol{display:none}
+html[data-tema="claro"] .tema .lua{display:block}
+.top .acoes{display:flex;align-items:center}
+@media(max-width:480px){.logo small{display:none}}
+html.trocando,html.trocando *{transition:background-color .45s var(--e),color .45s var(--e),border-color .45s var(--e)!important}
 </style>
 </head>
 <body>
@@ -364,7 +365,13 @@ footer{background:#fff;color:var(--muted)}
   <div class="wrap">
     <div class="logo"><span class="marca-tag">Arybra</span><small>Brindes<br>e gráfica</small></div>
     <nav class="nav"><a href="#aplicacoes">Aplicações</a><a href="#modelos">Modelos</a><a href="#arte">Personalização</a><a href="#faq">Dúvidas</a></nav>
-    <a class="pill" href="#orcamento" data-msg="geral">Orçamento</a>
+    <div class="acoes">
+      <button class="tema" id="tema" type="button" aria-label="Trocar tema claro ou escuro">
+        <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+        <svg class="lua" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg>
+      </button>
+      <a class="pill" href="#orcamento" data-msg="geral">Orçamento</a>
+    </div>
   </div>
 </header>
 
@@ -764,6 +771,19 @@ document.getElementById('ocasioes').innerHTML = ocasioes.map(function(o, i){
 
 // garrafa que ainda não chegou não mostra o texto alternativo
 document.querySelectorAll('.loja img').forEach(function(i){ i.addEventListener('error', function(){ i.style.visibility = 'hidden'; }); if(i.complete && !i.naturalWidth) i.style.visibility = 'hidden'; });
+
+// botão de tema: troca entre claro e escuro e lembra a escolha
+(function(){
+  var b = document.getElementById('tema'), html = document.documentElement;
+  function rotulo(){ b.setAttribute('aria-label', html.getAttribute('data-tema') === 'claro' ? 'Mudar para o tema escuro' : 'Mudar para o tema claro'); }
+  b.addEventListener('click', function(){
+    var novo = html.getAttribute('data-tema') === 'claro' ? 'escuro' : 'claro';
+    html.classList.add('trocando'); html.setAttribute('data-tema', novo);
+    try { localStorage.setItem('tema', novo); } catch(e){}
+    rotulo(); setTimeout(function(){ html.classList.remove('trocando'); }, 500);
+  });
+  rotulo();
+})();
 
 // simulação do botão de WhatsApp
 var modal = document.getElementById('modal'), bolha = document.getElementById('bolha');
