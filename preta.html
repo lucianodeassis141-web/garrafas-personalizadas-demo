@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garrafas Personalizadas · Demonstração</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@400;500;600;700&family=Saira:ital,wdth,wght@0,75..125,400..900;1,75..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0d; --bg2:#121215; --card:#18181c; --card2:#1f1f24; --line:#2b2b31;
+  --txt:#f3f3f4; --muted:#9b9ba4; --red:#e3192b; --red2:#b3121f; --wine:#5a0a12; --amber:#ffcf3f; --wa:#1fa855;
+  --cut:16px;
+  --t:.45s; --e:cubic-bezier(.2,.7,.2,1);
+  /* chanfro no canto, como o selo da referência */
+  --chanfro:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)));
+  --para:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);
+  --grao:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  --chamas:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='680' height='620' viewBox='0 0 680 620'%3E%3Cg fill='%23b3121f'%3E%3Cpath transform='translate(70 420) rotate(-18) scale(1.5)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(330 150) rotate(24) scale(1.1)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(520 470) rotate(-8) scale(1.3)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(210 560) rotate(40) scale(0.9)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(600 210) rotate(-32) scale(1.0)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(40 190) rotate(12) scale(0.8)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3Cpath transform='translate(420 330) rotate(58) scale(0.7)' d='M0 0C34-50-26-110 14-190C22-140 70-110 46-46 66-80 58-120 84-150 80-96 98-60 70-18 52 10 18 14 0 0Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 Inter,system-ui,sans-serif;padding-bottom:88px;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;background:var(--grao);opacity:.05;pointer-events:none;z-index:40;mix-blend-mode:overlay}
+h1,h2,h3{font-family:Saira,Inter,sans-serif;margin:0;line-height:.98;font-style:italic;text-transform:uppercase;letter-spacing:-.01em}
+h1{font-size:clamp(40px,8.6vw,82px);font-weight:900;font-stretch:95%}
+h2{font-size:clamp(32px,6vw,58px);font-weight:900;font-stretch:95%}
+h3{font-size:19px;font-weight:800;line-height:1.1}
+p{margin:0}
+img{display:block;max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+section{padding:80px 0;position:relative}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:italic 600 13px/1 Saira;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.kicker::before{content:"";width:26px;height:4px;background:var(--red);transform:skewX(-30deg);box-shadow:0 -7px 0 -1px var(--red)}
+.lead{font-size:18px;color:var(--muted);max-width:600px;margin-top:18px}
+.mult{mix-blend-mode:normal}
+.ilus{font-size:12px;color:#6c6c75;margin-top:12px}
+em{font-style:inherit;color:var(--red)}
+
+.demo-bar{background:#000;color:#cfcfd4;font-size:12.5px;text-align:center;padding:8px 16px;border-bottom:1px solid var(--line)}
+.demo-bar b{color:var(--red);font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+
+/* topo */
+.top{position:sticky;top:0;z-index:15;background:rgba(11,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{display:flex;align-items:center;gap:12px;font:italic 900 24px/1 Saira;letter-spacing:.01em;text-transform:uppercase}
+.logo .marca-tag{position:relative;background:#fff;color:#0b0b0d;padding:6px 14px 5px;clip-path:var(--para)}
+.logo .marca-tag::before{content:"";position:absolute;left:14px;right:14px;top:0;height:3px;background:var(--red)}
+.logo small{display:block;font:italic 600 10px/1.2 Saira;letter-spacing:.28em;color:var(--muted)}
+.nav{display:none;gap:30px;font:italic 600 14px Saira;letter-spacing:.12em;text-transform:uppercase}
+.nav a{text-decoration:none;color:var(--muted);position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-6px;height:2px;background:var(--red);transition:right var(--t) var(--e)}
+.nav a:hover{color:var(--txt)}
+.nav a:hover::after{right:0}
+@media(min-width:900px){.nav{display:flex}}
+.pill{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:italic 800 14px Saira;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--red);padding:11px 22px;clip-path:var(--para)}
+
+/* botão principal */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;color:#fff;border:0;
+  font:italic 800 18px/1 Saira;letter-spacing:.06em;text-transform:uppercase;padding:21px 34px;cursor:pointer;text-decoration:none;clip-path:var(--para);
+  background:linear-gradient(100deg,var(--red) 0%,var(--red) 55%,var(--red2) 100%)}
+.btn svg{width:22px;height:22px;flex:none}
+.btn.full{width:100%}
+.btn:hover{filter:brightness(1.1)}
+
+/* abertura */
+.hero{padding:30px 0 0;overflow:hidden;background:var(--bg)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(45% 50% at 78% 60%,rgba(227,25,43,.35),transparent 70%),
+  linear-gradient(90deg,var(--bg) 0%,rgba(11,11,13,.9) 45%,rgba(11,11,13,.55) 100%),
+  linear-gradient(180deg,transparent 60%,var(--bg) 100%)}
+.hero .wrap{position:relative}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:center}
+.hero-txt .sub{font-size:19px;color:#c4c4cb;margin:22px 0 30px;max-width:520px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chips span{font:italic 600 13px Saira;letter-spacing:.08em;text-transform:uppercase;color:#d6d6db;background:rgba(255,255,255,.05);border-left:3px solid var(--red);padding:8px 14px}
+.stage{position:relative;overflow:hidden;display:flex;justify-content:center;align-items:flex-end;min-height:420px}
+.stage::after{content:"";position:absolute;left:8%;right:8%;bottom:14px;height:50px;background:radial-gradient(50% 50% at 50% 50%,rgba(227,25,43,.6),transparent 70%);filter:blur(6px);z-index:0}
+.stage .side{position:relative;z-index:1;height:200px;margin:0 -10px 30px;filter:brightness(.8)}
+.stage .main{position:relative;z-index:2}
+.bottle-logo{position:relative;height:440px}
+.bottle-logo img{height:100%;width:auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.selo{position:absolute;z-index:3;right:4%;top:14%;background:#fff;color:#0b0b0d;padding:10px 18px;font:600 12px/1.25 Inter;clip-path:var(--para);transform:rotate(-4deg)}
+.selo b{display:block;color:var(--red);font:italic 900 14px Saira;text-transform:uppercase;letter-spacing:.06em}
+@media(min-width:900px){
+  .hero{padding:60px 0 0}
+  .hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
+  .stage{overflow:visible;min-height:620px}
+  .bottle-logo{height:560px}
+  .stage .side{height:260px}
+}
+@media(max-width:899px){.stage{order:-1}.bottle-logo{height:360px}.stage .side{height:150px}.stage{min-height:380px}}
+
+/* abertura interativa: a garrafa da frente troca com as dos lados */
+.stage{--hh:440px}
+.stage .hb{position:absolute;left:50%;bottom:30px;height:var(--hh);width:auto;transform-origin:50% 100%;cursor:pointer;will-change:transform;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.stage .selo{transition:opacity var(--t) var(--e),transform var(--t) var(--e)}
+.stage .selo.fora{opacity:0;transform:rotate(-4deg) translateY(-8px)}
+@media(min-width:900px){.stage{--hh:560px}}
+@media(max-width:899px){.stage{--hh:340px}}
+
+/* esteira de cores */
+.esteira{background:#000;border-block:1px solid var(--line);overflow:hidden;padding:22px 0 16px;margin-top:28px;position:relative}
+.esteira::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.trilho{display:flex;width:max-content;animation:anda 60s linear infinite;will-change:transform}
+.trilho img{height:110px;width:auto;margin-right:34px;flex:none}
+@keyframes anda{to{transform:translateX(-50%)}}
+
+/* aplicações */
+.ocasioes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:40px}
+@media(min-width:900px){.ocasioes{grid-template-columns:repeat(3,1fr);gap:16px}}
+.oc{position:relative;background:linear-gradient(160deg,var(--card2),var(--card));clip-path:var(--chanfro);padding:22px 20px 20px;display:flex;flex-direction:column;min-height:240px;overflow:hidden}
+.oc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);transform:scaleY(.25);transform-origin:top;transition:transform var(--t) var(--e)}
+.oc:hover::before{transform:none}
+.oc img{position:absolute;right:6px;bottom:-14px;height:128px;transform:rotate(8deg);transition:transform var(--t) var(--e)}
+.oc:hover img{transform:rotate(0) translateY(-6px)}
+.oc .n{font:italic 900 30px/1 Saira;color:var(--red)}
+.oc h3{margin-top:12px;max-width:80%}
+.oc p{font-size:14px;color:var(--muted);margin-top:8px;max-width:74%}
+.oc button{margin-top:auto;align-self:flex-start;background:transparent;border:0;padding:10px 0;font:italic 700 13px Saira;letter-spacing:.14em;text-transform:uppercase;color:#fff;cursor:pointer;position:relative;z-index:1}
+.oc button::after{content:" \2192";color:var(--red)}
+.oc button:hover{color:var(--red)}
+@media(max-width:899px){.ocasioes{grid-template-columns:minmax(0,1fr)}.oc{min-height:180px;padding-right:118px}.oc p{max-width:none}.oc img{height:124px;right:12px}}
+
+/* modelo */
+.modelos{background:var(--bg2)}
+.mgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;margin-top:40px}
+@media(min-width:900px){.mgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}}
+.vitrine{background:radial-gradient(55% 40% at 50% 85%,rgba(227,25,43,.45),transparent 70%),linear-gradient(180deg,#1a1a1f,#0e0e11);clip-path:var(--chanfro);
+  display:grid;place-items:center;padding:32px;min-height:420px;position:relative;overflow:hidden}
+.leque{position:relative;width:100%;height:380px}
+.leque img{position:absolute;left:50%;bottom:0;height:360px;width:auto;transform-origin:50% 100%;cursor:pointer;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));
+  opacity:0}
+.leque.pronto img{transition:transform calc(var(--t)*1.3) var(--e),opacity calc(var(--t)*1.3) var(--e)}
+@media(max-width:899px){.leque{height:320px}.leque img{height:280px}}
+.vitrine .nome{position:absolute;left:22px;top:20px;z-index:20;font:italic 800 13px Saira;letter-spacing:.1em;text-transform:uppercase;background:#fff;color:#0b0b0d;padding:7px 18px;clip-path:var(--para)}
+.ficha{list-style:none;padding:0;margin:22px 0 0}
+.ficha li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.ficha li span:first-child{color:var(--muted)}
+.ficha .pend{font:italic 700 12px Saira;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(255,207,63,.35);padding:3px 10px}
+.paleta{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-top:22px}
+@media(min-width:900px){.paleta{grid-template-columns:repeat(15,1fr)}}
+.paleta button{aspect-ratio:1;border-radius:50%;border:3px solid var(--bg2);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0;position:relative}
+.paleta button.dupla{background:conic-gradient(var(--t) 0 50%,#ebebeb 0 100%)!important}
+.paleta button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--red)}
+.modelos h3{font-size:30px!important}
+.outros{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.outros div{border:1px dashed var(--line);padding:18px 10px;text-align:center;font:italic 600 13px Saira;letter-spacing:.12em;text-transform:uppercase;color:#6c6c75}
+
+/* arte */
+.arte{background:linear-gradient(135deg,var(--red2) 0%,var(--wine) 60%,#2a0509 100%);color:#fff;overflow:hidden}
+.arte .wrap{position:relative}
+.arte .lead{color:#f1c9cd}
+.arte .kicker{color:#f1c9cd}
+.arte .kicker::before{background:#fff;box-shadow:0 -7px 0 -1px #fff}
+.tag{display:inline-block;background:#000;color:#fff;font:italic 800 11px/1 Saira;letter-spacing:.16em;text-transform:uppercase;padding:8px 18px;margin-bottom:20px;clip-path:var(--para)}
+.ad{display:grid;grid-template-columns:1fr;gap:14px;margin-top:44px}
+@media(min-width:900px){.ad{grid-template-columns:1fr auto 1fr;align-items:center;gap:24px}}
+.ad-card{background:rgba(0,0,0,.55);clip-path:var(--chanfro);padding:24px;min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.ad-card .rotulo{font:italic 700 12px Saira;letter-spacing:.22em;text-transform:uppercase;color:#d9a6ab}
+.logo-cru{width:190px;aspect-ratio:1.3;background:#fff;display:grid;place-items:center;transform:rotate(-5deg);box-shadow:0 18px 30px -12px #000;color:#16306b;filter:blur(.4px) saturate(.8)}
+.logo-cru b{font:900 22px/1.05 Archivo,sans-serif;display:block;text-align:center}
+.logo-cru b.aqui{font:700 11px Inter;letter-spacing:.3em;margin-top:6px;padding-top:6px;border-top:2px solid currentColor}
+.logo-cru small{display:block;font:500 9px Inter;color:#888;text-align:center;margin-top:4px}
+.seta{text-align:center;font:italic 900 44px Saira;color:#fff}
+@media(max-width:899px){.seta{transform:rotate(90deg)}}
+.ad-card .branco{background:radial-gradient(50% 35% at 50% 88%,rgba(227,25,43,.55),transparent 70%);padding:10px 26px}
+.ad-card .bottle-logo{height:280px}
+.lista-arte{display:grid;gap:10px;margin-top:34px}
+@media(min-width:900px){.lista-arte{grid-template-columns:repeat(3,1fr)}}
+.lista-arte div{border-top:3px solid rgba(255,255,255,.25);padding-top:14px;color:#f1d4d7;font-size:15px}
+.lista-arte b{display:block;color:#fff;font:italic 800 19px Saira;text-transform:uppercase;margin-bottom:4px}
+.arte .ilus{color:#d9a6ab!important}
+
+/* passos */
+.passos{display:grid;gap:12px;margin-top:40px;counter-reset:p}
+@media(min-width:900px){.passos{grid-template-columns:repeat(3,1fr);gap:16px}}
+.passo{background:var(--card);clip-path:var(--chanfro);padding:24px;counter-increment:p;display:flex;gap:18px;align-items:flex-start;position:relative}
+.passo::before{content:counter(p,decimal-leading-zero);font:italic 900 40px/.9 Saira;color:transparent;-webkit-text-stroke:1.5px var(--red);min-width:52px;transition:color var(--t) var(--e)}
+.passo:hover::before{color:var(--red)}
+.passo p{color:var(--muted);font-size:15px;margin-top:6px}
+
+/* confiança e carrossel */
+.confia{background:var(--bg2)}
+.sub-loja{margin-top:40px;font-size:22px}
+.carrossel{margin-top:24px;background:
+  radial-gradient(40% 28% at 50% 80%,rgba(227,25,43,.55),transparent 70%),
+  linear-gradient(180deg,#141418 0%,#0b0b0d 100%);clip-path:var(--chanfro);padding:30px 0 24px;overflow:hidden;user-select:none;position:relative}
+.palco{position:relative;height:500px;touch-action:pan-y}
+.palco img{position:absolute;left:50%;bottom:16px;height:470px;width:auto;transform-origin:50% 100%;cursor:pointer;will-change:transform;-webkit-user-drag:none;filter:drop-shadow(0 26px 28px rgba(0,0,0,.65))}
+.legenda{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:14px;padding:0 16px;position:relative}
+.legenda .info{min-width:240px;text-align:center}
+.legenda .sim{display:inline-block;font:italic 800 11px Saira;letter-spacing:.16em;text-transform:uppercase;background:#fff;color:#0b0b0d;padding:5px 14px;clip-path:var(--para)}
+.legenda b{display:block;font:italic 900 26px Saira;text-transform:uppercase;margin-top:10px}
+.legenda small{color:var(--muted);font:italic 600 12px Saira;letter-spacing:.2em;text-transform:uppercase}
+.seta-c{width:58px;height:48px;border:0;background:var(--card2);color:#fff;font:900 20px Saira;cursor:pointer;flex:none;clip-path:var(--para)}
+.seta-c:hover{background:var(--red)}
+.pontos{display:flex;justify-content:center;gap:6px;margin-top:18px;position:relative}
+.pontos button{width:16px;height:4px;border:0;padding:0;background:#3a3a42;cursor:pointer;transform:skewX(-30deg);transition:width var(--t) var(--e),background var(--t) var(--e)}
+.pontos button[aria-current="true"]{width:38px;background:var(--red)}
+@media(max-width:899px){.palco{height:360px}.palco img{height:330px}.legenda .info{min-width:0}.legenda b{font-size:20px}.seta-c{width:50px;height:44px}}
+.dados{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.dados span,.dados a{font:italic 600 13px Saira;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);padding:9px 16px;text-decoration:none;color:var(--txt)}
+.dados .pend{color:var(--amber);border-color:rgba(255,207,63,.35)}
+
+/* faq */
+.faq-grid{display:grid;gap:32px}
+@media(min-width:900px){.faq-grid{grid-template-columns:.8fr 1.2fr;gap:56px}}
+details{background:var(--card);margin-bottom:8px;padding:0 22px;border-left:3px solid transparent}
+details[open]{border-left-color:var(--red)}
+summary{cursor:pointer;list-style:none;padding:20px 34px 20px 0;font:italic 700 17px Saira;letter-spacing:.02em;text-transform:uppercase;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:0;top:12px;font:400 30px Saira;color:var(--red);transition:transform var(--t) var(--e)}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 20px;color:var(--muted)}
+
+/* fechamento */
+.fecho{background:linear-gradient(160deg,var(--red) 0%,var(--red2) 45%,var(--wine) 100%);color:#fff;text-align:center;padding-bottom:0;overflow:hidden}
+.fecho .wrap{position:relative}
+.fecho .lead{color:#ffd9dc;margin:18px auto 0}
+.fecho .btn{background:#0b0b0d;margin-top:32px}
+.fecho .btn svg{color:var(--wa)}
+.fila{display:flex;justify-content:center;align-items:flex-end;margin-top:52px;background:#0b0b0d;padding:28px 8px 0;clip-path:polygon(28px 0,calc(100% - 28px) 0,100% 28px,100% 100%,0 100%,0 28px)}
+.fila img{height:124px;width:auto;margin:0 -2px}
+.fila img,.trilho img{transition:transform .25s cubic-bezier(.2,.8,.3,1.4);transform-origin:50% 100%;position:relative}
+.fila img:hover{transform:scale(1.25) translateY(-4px);z-index:2}
+.trilho img:hover{transform:scale(1.15)}
+@media(max-width:899px){.fila img{height:72px;margin:0 -5px}}
+
+footer{padding:30px 16px;font:italic 500 12px Saira;letter-spacing:.14em;text-transform:uppercase;color:#6c6c75;text-align:center;background:#0b0b0d;border-top:1px solid var(--line)}
+
+/* barra fixa no celular */
+.fixa{position:fixed;left:0;right:0;bottom:0;background:rgba(11,11,13,.92);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px 16px;z-index:10}
+@media(min-width:900px){.fixa{display:none}body{padding-bottom:0}}
+
+/* reação discreta em botões e cards, mesmo ritmo do site */
+.btn,.pill,.oc,.passo,details,.seta-c,.paleta button,.oc button,.dados a{transition:transform var(--t) var(--e),background-color var(--t) var(--e),border-color var(--t) var(--e),color var(--t) var(--e),filter var(--t) var(--e)}
+.btn:hover,.pill:hover{transform:translateX(3px)}
+.btn:active,.pill:active,.seta-c:active,.oc button:active{transform:scale(.97)}
+.oc:hover,.passo:hover{transform:translateY(-4px)}
+.paleta button:hover{transform:scale(1.12)}
+.dados a:hover{background:var(--red);border-color:var(--red)}
+details[open] p{animation:entra var(--t) var(--e)}
+@keyframes entra{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* entrada ao rolar: sobe um pouco e aparece, em sequência dentro de cada bloco */
+.rv{opacity:0;transform:translateY(22px);transition:opacity calc(var(--t)*1.4) var(--e),transform calc(var(--t)*1.4) var(--e);transition-delay:calc(var(--i,0)*80ms)}
+.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;z-index:30;padding:16px}
+.modal.on{display:flex}
+@media(min-width:600px){.modal{align-items:center}}
+.box{background:#efeae2;border-radius:18px;max-width:420px;width:100%;overflow:hidden;color:#111}
+.box .cab{background:#075e54;color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px}
+.box .cab i{width:38px;height:38px;border-radius:50%;background:#0b0b0d;color:#fff;display:grid;place-items:center;font:italic 900 14px Saira}
+.box .cab b{display:block;font-size:15px}
+.box .cab small{opacity:.8;font-size:12px}
+.box .corpo{padding:18px 18px 20px}
+.bolha{background:#d9fdd3;border-radius:14px 14px 4px 14px;padding:14px 16px;white-space:pre-line;font-size:15px;color:#111b21;margin-left:28px;box-shadow:0 1px 1px rgba(0,0,0,.1)}
+.box .nota{font-size:13px;color:#54656f;margin:14px 2px 16px}
+.box button{width:100%;border:0;background:#0b0b0d;color:#fff;border-radius:12px;padding:15px;font:italic 800 15px Saira;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+
+/* fileira do fechamento rodando em loop */
+.fila{justify-content:flex-start;overflow:hidden}
+.fila .rolo{display:flex;align-items:flex-end;width:max-content;animation:anda 70s linear infinite reverse;padding-top:14px}
+.fila .rolo img{margin:0 28px;flex:none}
+.fila .rolo img:hover{transform:scale(1.12) translateY(-2px)}
+@media(max-width:899px){.fila .rolo img{margin:0 16px}}
+</style>
+</head>
+<body>
+
+<div class="demo-bar"><b>Demonstração</b> · fotos de referência e simulações · informações de produto, prazo e pedido a confirmar</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo"><span class="marca-tag">Arybra</span><small>Brindes<br>e gráfica</small></div>
+    <nav class="nav"><a href="#aplicacoes">Aplicações</a><a href="#modelos">Modelos</a><a href="#arte">Personalização</a><a href="#faq">Dúvidas</a></nav>
+    <a class="pill" href="#orcamento" data-msg="geral">Orçamento</a>
+  </div>
+</header>
+
+<!-- 1. Abertura -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-txt">
+      <span class="kicker">Garrafas personalizadas para empresas</span>
+      <h1>Um brinde que a pessoa usa <em>todo dia.</em> Com a sua marca.</h1>
+      <p class="sub">Garrafas com o logo da sua empresa para a equipe, os clientes e os eventos. Você conta o que precisa e recebe o orçamento pelo WhatsApp.</p>
+      <a class="btn" href="#orcamento" data-msg="geral"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9 0-1.4.7-2 1-2.3.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>Pedir orçamento no WhatsApp</a>
+      <div class="chips"><span>Envio para todo o Brasil</span><span>Várias cores</span><span>Atendimento pelo WhatsApp</span></div>
+    </div>
+    <div class="stage" id="stageHero" aria-label="Garrafas: toque numa garrafa do lado para trazer para a frente">
+      <img class="hb" src="img/escuro/preta-marca.webp" alt="Garrafa preta com marca simulada">
+      <img class="hb" src="img/escuro/destaque-marca.webp" alt="Garrafa branca com tampa azul e marca simulada">
+      <img class="hb" src="img/escuro/vermelha-marca.webp" alt="Garrafa vermelha com marca simulada">
+      <div class="selo"><b>Simulação</b>da marca na garrafa</div>
+    </div>
+  </div>
+  <div class="esteira" aria-hidden="true"><div class="trilho" id="trilho"></div></div>
+  <div class="wrap"><p class="ilus">Fotos de referência e simulação ilustrativa.</p></div>
+</section>
+
+<!-- 2. Aplicações -->
+<section id="aplicacoes">
+  <div class="wrap">
+    <span class="kicker">Aplicações</span>
+    <h2>Para quem a garrafa<br>personalizada funciona</h2>
+    <div class="ocasioes" id="ocasioes"></div>
+  </div>
+</section>
+
+<!-- 3. Modelos -->
+<section class="modelos" id="modelos">
+  <div class="wrap">
+    <span class="kicker">Modelos</span>
+    <h2>Escolha a cor<br>da sua garrafa</h2>
+    <div class="mgrid">
+      <div class="vitrine">
+        <span class="nome" id="nomeCor">Branca</span>
+        <div class="leque" id="leque"></div>
+      </div>
+      <div>
+        <h3 style="font-size:26px">Squeeze</h3>
+        <p class="lead" style="font-size:16px;margin-top:8px">Toque numa cor para ver a garrafa.</p>
+        <div class="paleta" id="paleta"></div>
+        <ul class="ficha">
+          <li><span>Capacidade</span><span class="pend">a confirmar</span></li>
+          <li><span>Material</span><span class="pend">a confirmar</span></li>
+          <li><span>Tampa</span><span class="pend">a confirmar</span></li>
+          <li><span>Gravação</span><span class="pend">a confirmar</span></li>
+          <li><span>Área de gravação</span><span class="pend">a confirmar</span></li>
+        </ul>
+        <p class="ilus">Fotos de referência. A cartela de cores real entra aqui.</p>
+      </div>
+    </div>
+    <div class="outros"><div>Outro modelo</div><div>Outro modelo</div><div>Outro modelo</div></div>
+  </div>
+</section>
+
+<!-- 4. Personalização -->
+<section class="arte" id="arte">
+  <div class="wrap">
+    <span class="tag">Proposta de serviço</span><br>
+    <span class="kicker">Personalização</span>
+    <h2>Arte pronta<br>para aprovar</h2>
+    <p class="lead">Você não precisa de designer. Mande o logo do jeito que tiver. A arte é ajustada para a gravação e você recebe a simulação da garrafa com a sua marca. A produção só começa depois da sua aprovação.</p>
+    <div class="ad">
+      <div class="ad-card">
+        <span class="rotulo">O logo que você manda</span>
+        <div class="logo-cru"><div><b>SUA MARCA</b><b class="aqui">AQUI</b><small>foto do cartão de visita</small></div></div>
+      </div>
+      <div class="seta">&rarr;</div>
+      <div class="ad-card">
+        <span class="rotulo">A simulação para aprovar</span>
+        <div class="branco">
+          <div class="bottle-logo">
+            <img src="img/escuro/destaque-marca.webp" alt="Simulação da marca na garrafa">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lista-arte">
+      <div><b>O que vai na garrafa</b>Logo, nome da empresa, frase curta, site ou Instagram.</div>
+      <div><b>Qualquer formato</b>PNG, PDF, foto ou print do logo.</div>
+      <div><b>Você aprova antes</b>Ajustes na arte antes de ir para a produção.</div>
+    </div>
+    <p class="ilus" style="color:#8d949e;margin-top:24px">Simulação ilustrativa.</p>
+  </div>
+</section>
+
+<!-- 5. Como pedir -->
+<section id="como">
+  <div class="wrap">
+    <span class="kicker">Como pedir</span>
+    <h2>Do orçamento<br>à entrega</h2>
+    <div class="passos">
+      <div class="passo"><div><h3>Orçamento</h3><p>Você fala a quantidade, a cor, a data e a cidade pelo WhatsApp.</p></div></div>
+      <div class="passo"><div><h3>Logo</h3><p>Manda o logo da empresa do jeito que tiver.</p></div></div>
+      <div class="passo"><div><h3>Arte para aprovar</h3><p>Recebe a simulação da garrafa com a sua marca.</p></div></div>
+      <div class="passo"><div><h3>Aprovação</h3><p>Com a arte aprovada e o pagamento feito, o pedido é confirmado.</p></div></div>
+      <div class="passo"><div><h3>Produção</h3><p>As garrafas são gravadas com a sua marca.</p></div></div>
+      <div class="passo"><div><h3>Entrega</h3><p>Envio para o endereço combinado.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Confiança -->
+<section class="confia" id="confianca">
+  <div class="wrap">
+    <span class="kicker">Quem faz</span>
+    <h2>Arybra Brindes<br>e Gráfica</h2>
+    <p class="lead">Brindes empresariais e gráfica, com envio para todo o Brasil.</p>
+    <h3 class="sub-loja">Como fica com a marca das lojas de Arcos</h3>
+    <div class="carrossel" id="carrossel" aria-roledescription="carrossel" aria-label="Garrafas simuladas com marcas de lojas de Arcos">
+      <div class="palco" id="palco"></div>
+      <div class="legenda">
+        <button class="seta-c" id="ant" aria-label="Garrafa anterior">&larr;</button>
+        <div class="info"><span class="sim">Simulação</span><b id="nomeLoja"></b><small id="contaLoja"></small></div>
+        <button class="seta-c" id="prox" aria-label="Próxima garrafa">&rarr;</button>
+      </div>
+      <div class="pontos" id="pontos"></div>
+    </div>
+    <p class="ilus">Simulações ilustrativas, feitas para esta apresentação. Não são pedidos entregues.</p>
+    <div class="dados">
+      <span class="pend">Cidade a confirmar</span>
+      <span class="pend">CNPJ a confirmar</span>
+      <a href="https://www.instagram.com/arybrabrindes/" target="_blank" rel="noopener">@arybrabrindes</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section id="faq">
+  <div class="wrap faq-grid">
+    <div>
+      <span class="kicker">Perguntas frequentes</span>
+      <h2>Antes<br>de pedir</h2>
+      <p class="lead">Ficou alguma dúvida? Pergunte no WhatsApp junto com o orçamento.</p>
+    </div>
+    <div>
+      <details><summary>Qual a quantidade mínima?</summary><p>Depende do modelo. O mínimo de cada um vem no orçamento.</p></details>
+      <details><summary>Quanto custa?</summary><p>O valor depende da quantidade, do modelo, da cor e de quantas cores tem o seu logo. Mande esses dados no WhatsApp e receba o orçamento.</p></details>
+      <details><summary>Preciso ter a arte pronta?</summary><p>Não precisa. Mande o logo como tiver e a arte é ajustada para a gravação.</p></details>
+      <details><summary>Vou ver como fica antes de produzir?</summary><p>Sim. Você recebe a simulação da garrafa para aprovar.</p></details>
+      <details><summary>Qual o prazo?</summary><p>O prazo é informado no orçamento. Se tiver data marcada, avise logo na primeira mensagem.</p></details>
+      <details><summary>Entregam na minha cidade?</summary><p>O envio é para todo o Brasil. O frete é calculado no orçamento.</p></details>
+      <details><summary>Quais as formas de pagamento?</summary><p>As condições são informadas no orçamento.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Fechamento -->
+<section class="fecho" id="orcamento">
+  <div class="wrap">
+    <h2>Sua marca na rotina de quem<br>importa para a sua empresa.</h2>
+    <p class="lead">Mande a quantidade, a cor e a data. A resposta vem com o orçamento.</p>
+    <a class="btn" href="#orcamento" data-msg="geral"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9 0-1.4.7-2 1-2.3.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>Pedir orçamento no WhatsApp</a>
+    <div class="fila" id="fila"></div>
+  </div>
+</section>
+
+<footer>Página demonstrativa, sem valor de oferta. Fotos de referência e simulações ilustrativas.</footer>
+
+<div class="fixa"><a class="btn full" href="#orcamento" data-msg="geral"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>Pedir orçamento no WhatsApp</a></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Simulação da mensagem de orçamento">
+  <div class="box">
+    <div class="cab"><i>AB</i><div><b>Arybra Brindes</b><small>simulação do WhatsApp</small></div></div>
+    <div class="corpo">
+      <div class="bolha" id="bolha"></div>
+      <p class="nota">Na versão final, o botão abre o WhatsApp de vocês com esta mensagem já escrita. O cliente só completa e envia.</p>
+      <button id="fechar">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// troca de texto sem corte: o anterior sai e o próximo entra
+function trocarTexto(el, texto){
+  if(el.textContent === texto) return;
+  if(!el.animate){ el.textContent = texto; return; }
+  el.animate([{opacity:1, transform:'none'},{opacity:0, transform:'translateY(-6px)'}], {duration:160, easing:'ease-in'}).onfinish = function(){
+    el.textContent = texto;
+    el.animate([{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'none'}], {duration:260, easing:'cubic-bezier(.2,.7,.2,1)'});
+  };
+}
+
+var cores = [
+  ['branca','Branca','#f3f3f1'],['branca-vermelha','Translúcida com tampa vermelha','#d7262f',1],['branca-verde','Translúcida com tampa verde','#2e9a47',1],
+  ['branca-azul','Translúcida com tampa azul','#16306b',1],['preta','Preta','#1d1d1f'],['prata','Prata','#8d939a'],
+  ['rosa','Rosa','#e3398b'],['vermelha','Vermelha','#c81e2a'],['laranja','Laranja','#f0702a'],['amarela','Amarela','#f5c518'],
+  ['verde-limao','Verde-limão','#7cc242'],['verde','Verde','#2e9a47'],['azul-claro','Azul-claro','#3b8ede'],['azul','Azul','#1f3c98'],['roxa','Roxa','#7b3fa0']
+];
+
+// esteira e fila de garrafas
+var imgs = cores.map(function(c){ return '<img src="img/escuro/'+c[0]+'.webp" alt="">'; }).join('');
+document.getElementById('trilho').innerHTML = imgs + imgs + imgs + imgs; // metade = 2 voltas, cobre telas largas e o -50% emenda sem salto
+document.getElementById('fila').innerHTML = '<div class="rolo">' + imgs + imgs + imgs + imgs + '</div>'; // roda em loop, no sentido contrário da faixa de cima
+
+// paleta: a cor escolhida entra e a anterior sai pelo lado
+var paleta = document.getElementById('paleta'), leque = document.getElementById('leque'), nome = document.getElementById('nomeCor');
+var corAtual = 0;
+var fotos = cores.map(function(c, i){
+  var im = document.createElement('img');
+  im.src = 'img/escuro/' + c[0] + '.webp'; im.alt = 'Garrafa ' + c[1].toLowerCase();
+  im.onclick = function(){ escolherCor(i); };
+  leque.appendChild(im); return im;
+});
+function abrirLeque(){
+  var w = leque.clientWidth, n = cores.length;
+  fotos.forEach(function(im, i){
+    var d = i - corAtual; if(d > n/2) d -= n; if(d < -n/2) d += n;
+    var a = Math.abs(d), lado = d < 0 ? -1 : 1, x, r, s, o;
+    // só a escolhida aparece; as outras ficam fora de cena, do lado de onde vão entrar
+    if(a === 0){ x = 0; r = 0; s = 1; o = 1; }
+    else { x = lado*w*.18; r = lado*6; s = .9; o = 0; }
+    im.style.transform = 'translateX(calc(-50% + ' + x + 'px)) rotate(' + r + 'deg) scale(' + s + ')';
+    im.style.opacity = o; im.style.zIndex = a ? 1 : 10;
+    im.style.pointerEvents = a ? 'none' : 'auto';
+  });
+}
+function escolherCor(i){
+  corAtual = i;
+  [].forEach.call(paleta.children, function(x, j){ x.setAttribute('aria-pressed', j === i); });
+  trocarTexto(nome, cores[i][1]);
+  abrirLeque();
+}
+cores.forEach(function(c, i){
+  var b = document.createElement('button');
+  b.style.background = c[2];
+  if(c[3]){ b.className = 'dupla'; b.style.setProperty('--t', c[2]); }
+  b.title = c[1]; b.setAttribute('aria-label', c[1]); b.setAttribute('aria-pressed', i === 0);
+  b.onclick = function(){ escolherCor(i); };
+  paleta.appendChild(b);
+});
+abrirLeque();
+// só anima a partir da primeira troca: na carga as outras cores já começam escondidas
+requestAnimationFrame(function(){ requestAnimationFrame(function(){ leque.classList.add('pronto'); }); });
+window.addEventListener('resize', abrirLeque);
+
+// aplicações
+var ocasioes = [
+  ['SIPAT e segurança do trabalho','Uma garrafa para cada colaborador e um lembrete de hidratação no turno.','SIPAT','verde'],
+  ['Integração de equipe','Kit de boas-vindas com a marca da empresa no primeiro dia.','integração de equipe','azul'],
+  ['Eventos e corridas','Kit do participante que vai para casa e continua sendo usado.','evento','laranja'],
+  ['Academias e escolas','Garrafa na cor da turma, da equipe ou da unidade.','academia ou escola','rosa'],
+  ['Clientes','Brinde de fim de ano, de compra ou de visita, que fica na mesa e no carro.','brinde para clientes','preta'],
+  ['Feiras e estandes','Um brinde útil que o visitante leva do estande.','feira','amarela']
+];
+document.getElementById('ocasioes').innerHTML = ocasioes.map(function(o, i){
+  return '<div class="oc"><span class="n">0'+(i+1)+'</span><h3>'+o[0]+'</h3><p>'+o[1]+'</p>'+
+    '<button data-msg="'+i+'">Quero orçamento</button><img src="img/escuro/'+o[3]+'.webp" alt=""></div>';
+}).join('');
+
+// abertura interativa: clicar numa garrafa do lado traz ela para a frente, tombando e pulando
+(function(){
+  var st = document.getElementById('stageHero'); if(!st) return;
+  var bs = [].slice.call(st.querySelectorAll('.hb')), selo = st.querySelector('.selo');
+  var n = bs.length, marca = 1, atual = 1, ocupado = false, parado = false, timer;
+  function dist(i, c){ var d = (i - c) % n; if(d < 0) d += n; if(d > n/2) d -= n; return d; }
+  function pos(d){
+    var w = st.clientWidth;
+    if(d === 0) return {x:0, s:1, z:3};
+    return {x:d*Math.min(w*.36, 230), s:.46, z:2};
+  }
+  function tr(p, y, r){ return 'translateX(calc(-50% + ' + p.x + 'px)) translateY(' + (y||0) + 'px) rotate(' + (r||0) + 'deg) scale(' + p.s + ')'; }
+  function pintar(){
+    bs.forEach(function(b, i){ var p = pos(dist(i, atual)); b.style.transform = tr(p); b.style.zIndex = p.z; });
+    selo.classList.remove("fora");
+  }
+  function irPara(novo){
+    novo = (novo + n) % n;
+    if(ocupado || novo === atual) return;
+    var antigo = atual; atual = novo; ocupado = true;
+    var alto = st.clientHeight;
+    selo.classList.remove("fora");
+    bs.forEach(function(b, i){
+      var d0 = dist(i, antigo), d1 = dist(i, atual), p0 = pos(d0), p1 = pos(d1);
+      var volta = Math.abs(d1 - d0) > 1;             // a que passa por trás para o outro lado
+      b.style.zIndex = volta ? 1 : Math.max(p0.z, p1.z);
+      var sentido = d1 < d0 ? -1 : 1;
+      var meio = {x:(p0.x + p1.x)/2, s:(p0.s + p1.s)/2 * (volta ? .85 : 1)};
+      var pulo = -alto * (volta ? .08 : .14) * Math.max(p0.s, p1.s);
+      b.animate([
+        {transform: tr(p0)},
+        {transform: tr({x:p0.x + (p1.x - p0.x)*.15, s:p0.s}, pulo*.3, sentido*14), offset:.2},
+        {transform: tr(meio, pulo, sentido*30), offset:.5},
+        {transform: tr(p1, 0, -sentido*6), offset:.82},
+        {transform: tr(p1)}
+      ], {duration:780, easing:'cubic-bezier(.45,.05,.35,1)'}).onfinish = function(){ b.style.transform = tr(p1); b.style.zIndex = p1.z; };
+    });
+    setTimeout(function(){ ocupado = false; pintar(); }, 800);
+  }
+  bs.forEach(function(b, i){ b.addEventListener('click', function(){ irPara(i); reiniciar(); }); });
+  // troca sozinha de tempos em tempos; para enquanto o mouse está em cima
+  function reiniciar(){ clearInterval(timer); timer = setInterval(function(){ if(!parado && !document.hidden) irPara(atual + 1); }, 4500); }
+  st.addEventListener('mouseenter', function(){ parado = true; });
+  st.addEventListener('mouseleave', function(){ parado = false; });
+  var x0 = null;
+  st.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  st.addEventListener('touchend', function(e){ if(x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if(Math.abs(dx) > 40){ irPara(atual + (dx < 0 ? 1 : -1)); reiniciar(); } x0 = null; });
+  window.addEventListener('resize', function(){ if(!ocupado) pintar(); });
+  pintar(); reiniciar();
+})();
+
+// carrossel das lojas: uma na frente, as vizinhas dos lados; ao trocar, cada garrafa tomba e pula
+(function(){
+  var lojas = [
+    ['mattos','Mattos Calçados'],['arcosuper','Arcosuper'],['lojao-das-roupas','Lojão das Roupas'],
+    ['casa-dos-cartuchos','Casa dos Cartuchos'],['linda','Linda'],['arcos-auto-pecas','Arcos Auto Peças'],
+    ['arena-fitness','Arena Fitness'],['zema-moda','Zema Moda'],['natural-farma','Natural Farma']
+  ];
+  var palco = document.getElementById('palco'), nome = document.getElementById('nomeLoja'),
+      conta = document.getElementById('contaLoja'), pontos = document.getElementById('pontos');
+  var n = lojas.length, atual = 0, ocupado = false;
+  var imgs = lojas.map(function(l, i){
+    var im = document.createElement('img');
+    im.src = 'img/escuro/loja-' + l[0] + '.webp'; im.alt = 'Simulação de garrafa com a marca ' + l[1];
+    im.onclick = function(){ irPara(i); };
+    palco.appendChild(im); return im;
+  });
+  lojas.forEach(function(l, i){
+    var b = document.createElement('button'); b.setAttribute('aria-label', l[1]);
+    b.onclick = function(){ irPara(i); }; pontos.appendChild(b);
+  });
+  function dist(i, c){ var d = (i - c) % n; if(d < 0) d += n; if(d > n/2) d -= n; return d; }
+  function pos(d){
+    var w = palco.clientWidth, cel = w < 700;
+    var passo = cel ? Math.min(w*0.36, 150) : Math.min(w*0.27, 300);
+    var a = Math.abs(d), lado = d < 0 ? -1 : 1;
+    if(a === 0) return {x:0, s:1, o:1, z:9};
+    if(a === 1) return {x:lado*passo, s:.62, o:1, z:8};
+    if(a === 2 && !cel) return {x:lado*passo*1.62, s:.42, o:.55, z:7};
+    return {x:lado*passo*2.1, s:.3, o:0, z:1};
+  }
+  function tr(p, y, r){ return 'translateX(calc(-50% + ' + p.x + 'px)) translateY(' + (y||0) + 'px) rotate(' + (r||0) + 'deg) scale(' + p.s + ')'; }
+  function pintar(){
+    imgs.forEach(function(im, i){ var p = pos(dist(i, atual)); im.style.transform = tr(p); im.style.opacity = p.o; im.style.zIndex = p.z; });
+    nome.textContent = lojas[atual][1]; conta.textContent = (atual+1) + ' de ' + n;
+    [].forEach.call(pontos.children, function(b, i){ b.setAttribute('aria-current', i === atual); });
+  }
+  function irPara(novo){
+    if(ocupado || novo === atual) return;
+    var antigo = atual; atual = (novo + n) % n; ocupado = true;
+    var alto = palco.clientHeight;
+    imgs.forEach(function(im, i){
+      var d0 = dist(i, antigo), d1 = dist(i, atual), p0 = pos(d0), p1 = pos(d1);
+      im.style.zIndex = Math.max(p0.z, p1.z);
+      if(Math.abs(d0 - d1) > 2 || (p0.o === 0 && p1.o === 0)){ im.style.transform = tr(p1); im.style.opacity = p1.o; return; }
+      var sentido = d1 < d0 ? -1 : 1;              // para onde a garrafa vai
+      var meio = {x:(p0.x+p1.x)/2, s:(p0.s+p1.s)/2};
+      var pulo = -alto * 0.16 * Math.max(p0.s, p1.s);
+      var anim = im.animate([
+        {transform: tr(p0), opacity: p0.o},
+        {transform: tr({x:p0.x + (p1.x-p0.x)*.15, s:p0.s}, pulo*.3, sentido*14), opacity: p0.o, offset:.2},
+        {transform: tr(meio, pulo, sentido*32), offset:.5},
+        {transform: tr({x:p1.x, s:p1.s}, 0, -sentido*6), opacity: p1.o, offset:.82},
+        {transform: tr(p1), opacity: p1.o}
+      ], {duration: 780, easing: 'cubic-bezier(.45,.05,.35,1)'});
+      anim.onfinish = function(){ im.style.transform = tr(p1); im.style.opacity = p1.o; im.style.zIndex = p1.z; };
+    });
+    trocarTexto(nome, lojas[atual][1]); conta.textContent = (atual+1) + ' de ' + n;
+    [].forEach.call(pontos.children, function(b, i){ b.setAttribute('aria-current', i === atual); });
+    setTimeout(function(){ ocupado = false; pintar(); }, 800);
+  }
+  document.getElementById('prox').onclick = function(){ irPara(atual + 1); };
+  document.getElementById('ant').onclick = function(){ irPara(atual - 1); };
+  // arrastar no celular
+  var x0 = null;
+  palco.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  palco.addEventListener('touchend', function(e){ if(x0 === null) return; var dx = e.changedTouches[0].clientX - x0; if(Math.abs(dx) > 40) irPara(atual + (dx < 0 ? 1 : -1)); x0 = null; });
+  window.addEventListener('resize', function(){ if(!ocupado) pintar(); });
+  pintar();
+})();
+
+// entrada ao rolar: cada bloco entra suave e os itens de um mesmo grupo aparecem em sequência
+(function(){
+  if(!('IntersectionObserver' in window)) return;
+  var alvos = document.querySelectorAll('section .kicker, section h1, section h2, section .lead, .hero .sub, .hero .btn, .chips span, .stage, .esteira, .oc, .vitrine, .modelos h3, .paleta, .ficha li, .outros div, .ad-card, .seta, .lista-arte div, .passo, .carrossel, .dados > *, details, .fecho .btn, .fila');
+  var vistos = new Map();
+  alvos.forEach(function(el){
+    var pai = el.parentElement, i = vistos.get(pai) || 0; vistos.set(pai, i + 1);
+    el.style.setProperty('--i', Math.min(i, 8)); el.classList.add('rv');
+  });
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target; el.classList.add('on'); obs.unobserve(el);
+      // terminada a entrada, devolve o elemento ao normal para o hover funcionar
+      setTimeout(function(){ el.classList.remove('rv','on'); el.style.removeProperty('--i'); }, 1400);
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:.12});
+  alvos.forEach(function(el){ obs.observe(el); });
+})();
+
+// garrafa que ainda não chegou não mostra o texto alternativo
+document.querySelectorAll('.loja img').forEach(function(i){ i.addEventListener('error', function(){ i.style.visibility = 'hidden'; }); if(i.complete && !i.naturalWidth) i.style.visibility = 'hidden'; });
+
+// simulação do botão de WhatsApp
+var modal = document.getElementById('modal'), bolha = document.getElementById('bolha');
+function mensagem(chave){
+  var ocasiao = chave === 'geral' ? '' : '\nOcasião: ' + ocasioes[+chave][2];
+  return 'Olá! Vim pela página das garrafas. Quero um orçamento.' + ocasiao + '\nQuantidade:\nCor da garrafa:\nPara quando preciso:\nCidade de entrega:';
+}
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-msg]');
+  if(!el) return;
+  e.preventDefault();
+  bolha.textContent = mensagem(el.getAttribute('data-msg'));
+  modal.classList.add('on');
+});
+document.getElementById('fechar').onclick = function(){ modal.classList.remove('on'); };
+modal.addEventListener('click', function(e){ if(e.target === modal) modal.classList.remove('on'); });
+</script>
+</body>
+</html>
